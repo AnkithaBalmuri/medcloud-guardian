@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MedCloud Guardian"
+description = "A beginner-friendly medical record management project demo with fictional sample patients, patient and doctor dashboards, document upload preview, emergency information, and demo-only sign-in. It does not store real records or provide secure authentication."
+version = "1.0.0"
+id = "artifacts/medcloud-guardian"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18505
+
+[services.development]
+run = "pnpm --filter @workspace/medcloud-guardian run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/medcloud-guardian", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/medcloud-guardian/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18505"
+BASE_PATH = "/"
